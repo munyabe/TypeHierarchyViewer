@@ -52,6 +52,7 @@
     <DeployExtension>False</DeployExtension>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CommandBase.cs" />
     <Compile Include="OpenTypeHierarchyCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeHierarchyViewerPackage.cs" />
