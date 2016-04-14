@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using TypeHierarchyViewer.Views;
@@ -45,27 +46,22 @@ namespace TypeHierarchyViewer
         /// <inheritdoc />
         protected override void Execute(object sender, EventArgs e)
         {
-            ShowToolWindow(sender, e);
+            ShowToolWindow();
         }
 
         /// <summary>
-        /// Shows the tool window when the menu item is clicked.
+        /// 型階層を表示するウィンドウを開きます。
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event args.</param>
-        private void ShowToolWindow(object sender, EventArgs e)
+        private void ShowToolWindow()
         {
-            // Get the instance number 0 of this tool window. This window is single instance so this instance
-            // is actually the only one.
-            // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = Package.FindToolWindow(typeof(TypeHierarchyWindow), 0, true);
-            if ((null == window) || (null == window.Frame))
+            var window = Package.FindToolWindow(typeof(TypeHierarchyWindow), 0, true);
+            if (null == window || null == window.Frame)
             {
                 throw new NotSupportedException("Cannot create tool window");
             }
 
-            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            var windowFrame = (IVsWindowFrame)window.Frame;
+            ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
     }
 }
