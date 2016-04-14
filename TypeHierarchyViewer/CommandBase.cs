@@ -17,6 +17,14 @@ namespace TypeHierarchyViewer
         private readonly Package _package;
 
         /// <summary>
+        /// コマンドを提供するパッケージを取得します。
+        /// </summary>
+        protected Package Package
+        {
+            get { return _package; }
+        }
+
+        /// <summary>
         /// サービスプロバイダーを取得します。
         /// </summary>
         protected IServiceProvider ServiceProvider

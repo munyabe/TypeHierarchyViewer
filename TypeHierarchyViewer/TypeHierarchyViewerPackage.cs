@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
+using TypeHierarchyViewer.Views;
 
 namespace TypeHierarchyViewer
 {
@@ -11,6 +12,7 @@ namespace TypeHierarchyViewer
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Visual Studio のヘルプ/バージョン情報に表示される情報です。
     [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(TypeHierarchyWindow))]
     public sealed class TypeHierarchyViewerPackage : Package
     {
         /// <summary>

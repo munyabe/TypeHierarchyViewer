@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using TypeHierarchyViewer.Views;
 
 namespace TypeHierarchyViewer
 {
@@ -43,7 +45,27 @@ namespace TypeHierarchyViewer
         /// <inheritdoc />
         protected override void Execute(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ShowToolWindow(sender, e);
+        }
+
+        /// <summary>
+        /// Shows the tool window when the menu item is clicked.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event args.</param>
+        private void ShowToolWindow(object sender, EventArgs e)
+        {
+            // Get the instance number 0 of this tool window. This window is single instance so this instance
+            // is actually the only one.
+            // The last flag is set to true so that if the tool window does not exists it will be created.
+            ToolWindowPane window = Package.FindToolWindow(typeof(TypeHierarchyWindow), 0, true);
+            if ((null == window) || (null == window.Frame))
+            {
+                throw new NotSupportedException("Cannot create tool window");
+            }
+
+            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
     }
 }
