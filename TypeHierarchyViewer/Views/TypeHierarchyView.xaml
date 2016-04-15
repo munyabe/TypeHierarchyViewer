@@ -10,7 +10,7 @@
              mc:Ignorable="d">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TreeView x:Name="_typeTree">
+            <TreeView ItemsSource="{Binding TargetType}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate>
                         <TextBlock Text="{Binding Name}" />
