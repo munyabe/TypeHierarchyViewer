@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypeHierarchyViewer.Views
@@ -24,7 +25,10 @@ namespace TypeHierarchyViewer.Views
                 _targetType = value;
 
                 var topNode = CreateTypeNode(value);
-                TypeNodes = new[] { topNode };
+                TypeNodes = new[] { topNode }
+                    .Concat(value.AllInterfaces
+                        .Select(x => new TypeNode { Name = x.Name }))
+                    .ToArray();
             }
         }
 
