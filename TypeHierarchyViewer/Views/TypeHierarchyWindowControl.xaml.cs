@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Microsoft.CodeAnalysis;
 
 namespace TypeHierarchyViewer.Views
 {
@@ -13,6 +14,15 @@ namespace TypeHierarchyViewer.Views
         public TypeHierarchyWindowControl()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 階層を表示します。
+        /// </summary>
+        /// <param name="TargetType">表示する型</param>
+        public void ShowTypeHierarchy(INamedTypeSymbol targetType)
+        {
+            _typeTree.ItemsSource = new[] { targetType };
         }
     }
 }

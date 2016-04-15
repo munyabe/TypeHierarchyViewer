@@ -10,6 +10,13 @@
              mc:Ignorable="d">
     <Grid>
         <StackPanel Orientation="Vertical">
+            <TreeView x:Name="_typeTree">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
         </StackPanel>
     </Grid>
 </UserControl>
