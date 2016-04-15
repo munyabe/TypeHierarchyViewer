@@ -17,7 +17,7 @@ namespace TypeHierarchyViewer.Views
         public TypeHierarchyWindow() : base(null)
         {
             Caption = "Type Hierarchy";
-            Content = new TypeHierarchyWindowControl();
+            Content = new TypeHierarchyView();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace TypeHierarchyViewer.Views
         /// <param name="targetType">表示する型</param>
         public void SetTargetType(INamedTypeSymbol targetType)
         {
-            ((TypeHierarchyWindowControl)Content).ShowTypeHierarchy(targetType);
+            ((TypeHierarchyView)Content).ShowTypeHierarchy(targetType);
         }
     }
 }

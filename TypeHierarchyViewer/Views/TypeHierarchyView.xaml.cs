@@ -4,14 +4,14 @@ using Microsoft.CodeAnalysis;
 namespace TypeHierarchyViewer.Views
 {
     /// <summary>
-    /// 型階層を表示するウィンドウです。
+    /// 型階層を表示する View です。
     /// </summary>
-    public partial class TypeHierarchyWindowControl : UserControl
+    public partial class TypeHierarchyView : UserControl
     {
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
-        public TypeHierarchyWindowControl()
+        public TypeHierarchyView()
         {
             InitializeComponent();
         }
