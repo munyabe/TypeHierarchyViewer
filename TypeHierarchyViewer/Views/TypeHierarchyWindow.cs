@@ -30,7 +30,7 @@ namespace TypeHierarchyViewer.Views
         public void SetTargetType(INamedTypeSymbol targetType)
         {
             var view = ((TypeHierarchyView)Content);
-            ((TypeHierarchyViewModel)view.DataContext).TargetType = new[] { targetType };
+            ((TypeHierarchyViewModel)view.DataContext).TargetType = targetType;
         }
     }
 }

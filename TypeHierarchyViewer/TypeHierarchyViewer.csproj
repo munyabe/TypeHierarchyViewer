@@ -62,6 +62,7 @@
     <Compile Include="Views\TypeHierarchyView.xaml.cs">
       <DependentUpon>TypeHierarchyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TypeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

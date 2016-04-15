@@ -10,12 +10,18 @@
              mc:Ignorable="d">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TreeView ItemsSource="{Binding TargetType}">
+            <TreeView ItemsSource="{Binding TypeNodes}">
                 <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding Name}" />
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
+
+                <TreeView.Resources>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="True" />
+                    </Style>
+                </TreeView.Resources>
             </TreeView>
         </StackPanel>
     </Grid>
