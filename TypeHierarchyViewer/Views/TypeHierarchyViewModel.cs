@@ -27,7 +27,7 @@ namespace TypeHierarchyViewer.Views
                 var topNode = CreateTypeNode(value);
                 TypeNodes = new[] { topNode }
                     .Concat(value.AllInterfaces
-                        .Select(x => new TypeNode { Name = x.Name }))
+                        .Select(x => new TypeNode(x)))
                     .ToArray();
             }
         }
@@ -61,22 +61,21 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 型階層のノードを作成します。
         /// </summary>
-        private static TypeNode CreateTypeNode(INamedTypeSymbol value)
+        private static TypeNode CreateTypeNode(INamedTypeSymbol targetType)
         {
-            var result = new TypeNode();
+            var baseTypes = GetBaseTypes(targetType);
+            var result = new TypeNode(baseTypes.Pop());
 
             var current = result;
-            foreach (var type in GetBaseTypes(value))
+            foreach (var type in baseTypes)
             {
-                current.Name = type.Name;
-
-                var child = new TypeNode();
+                var child = new TypeNode(type);
                 current.Children = new[] { child };
-
                 current = child;
             }
 
-            current.Name = value.Name;
+            current.Children = new[] { new TypeNode(targetType) };
+
             return result;
         }
 
