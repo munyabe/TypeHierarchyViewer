@@ -8,6 +8,11 @@ namespace TypeHierarchyViewer.Views
     public class TypeNode
     {
         /// <summary>
+        /// ノードの種類を取得します。
+        /// </summary>
+        public TypeKind Kind { get; }
+
+        /// <summary>
         /// 型の名前を取得します。
         /// </summary>
         public string Name { get; }
@@ -24,6 +29,7 @@ namespace TypeHierarchyViewer.Views
         public TypeNode(INamedTypeSymbol source)
         {
             Name = source.Name;
+            Kind = source.TypeKind;
         }
     }
 }

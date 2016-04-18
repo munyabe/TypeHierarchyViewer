@@ -57,6 +57,7 @@
     <Compile Include="OpenTypeHierarchyCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeHierarchyViewerPackage.cs" />
+    <Compile Include="Views\Converters\TypeKindToIconConverter.cs" />
     <Compile Include="Views\TypeHierarchyViewModel.cs" />
     <Compile Include="Views\TypeHierarchyWindow.cs" />
     <Compile Include="Views\TypeHierarchyView.xaml.cs">
@@ -189,6 +190,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Class.png" />
+    <Resource Include="Resources\Interface.png" />
     <Content Include="Resources\OpenTypeHierarchyCommand.png" />
     <Content Include="Resources\TypeHierarchyViewerPackage.ico" />
     <VSCTCompile Include="TypeHierarchyViewerPackage.vsct">
