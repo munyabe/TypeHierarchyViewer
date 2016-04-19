@@ -192,6 +192,10 @@
   <ItemGroup>
     <Resource Include="Resources\Class.png" />
     <Resource Include="Resources\Interface.png" />
+    <Content Include="LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\OpenTypeHierarchyCommand.png" />
     <Content Include="Resources\TypeHierarchyViewerPackage.ico" />
     <VSCTCompile Include="TypeHierarchyViewerPackage.vsct">
