@@ -71,6 +71,11 @@ namespace TypeHierarchyViewer.Views
         private static TypeNode CreateTypeNode(INamedTypeSymbol targetType)
         {
             var baseTypes = GetBaseTypes(targetType);
+            if (baseTypes.Count == 0)
+            {
+                return new TypeNode(targetType);
+            }
+
             var result = new TypeNode(baseTypes.Pop());
 
             var current = result;
