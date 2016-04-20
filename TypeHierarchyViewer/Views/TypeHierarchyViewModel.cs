@@ -24,11 +24,18 @@ namespace TypeHierarchyViewer.Views
             {
                 _targetType = value;
 
-                var topNode = CreateTypeNode(value);
-                TypeNodes = new[] { topNode }
-                    .Concat(value.AllInterfaces
-                        .Select(x => new TypeNode(x)))
-                    .ToArray();
+                if (value == null)
+                {
+                    TypeNodes = new TypeNode[0];
+                }
+                else
+                {
+                    var topNode = CreateTypeNode(value);
+                    TypeNodes = new[] { topNode }
+                        .Concat(value.AllInterfaces
+                            .Select(x => new TypeNode(x)))
+                        .ToArray();
+                }
             }
         }
 
