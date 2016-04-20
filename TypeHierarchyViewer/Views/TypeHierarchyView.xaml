@@ -10,23 +10,21 @@
              d:DesignWidth="300"
              mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <TreeView ItemsSource="{Binding TypeNodes}">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding Kind, Converter={x:Static converters:TypeKindToIconConverter.Instance}}" Margin="0, 0, 5, 0" />
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
+        <TreeView ItemsSource="{Binding TypeNodes}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Kind, Converter={x:Static converters:TypeKindToIconConverter.Instance}}" Margin="0, 0, 5, 0" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
 
-                <TreeView.Resources>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="True" />
-                    </Style>
-                </TreeView.Resources>
-            </TreeView>
-        </StackPanel>
+            <TreeView.Resources>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+            </TreeView.Resources>
+        </TreeView>
     </Grid>
 </UserControl>
