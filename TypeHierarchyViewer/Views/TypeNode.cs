@@ -8,7 +8,7 @@ namespace TypeHierarchyViewer.Views
     public class TypeNode
     {
         /// <summary>
-        /// ノードの種類を取得します。
+        /// 型の種類を取得します。
         /// </summary>
         public TypeKind Kind { get; }
 
@@ -16,6 +16,11 @@ namespace TypeHierarchyViewer.Views
         /// 型の名前を取得します。
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// 型の名前空間を取得します。
+        /// </summary>
+        public string Namespace { get; }
 
         /// <summary>
         /// 型の子を取得または設定します。
@@ -30,6 +35,7 @@ namespace TypeHierarchyViewer.Views
         {
             Name = source.Name;
             Kind = source.TypeKind;
+            Namespace = source.ContainingNamespace.ToString();
         }
     }
 }
