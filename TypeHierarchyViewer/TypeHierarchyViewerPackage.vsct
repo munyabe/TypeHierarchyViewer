@@ -56,7 +56,7 @@
         <Parent guid="guidTypeHierarchyViewerPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke OpenTypeHierarchyCommand</ButtonText>
+          <ButtonText>Open Type Hierarchy</ButtonText>
         </Strings>
       </Button>
     </Buttons>
