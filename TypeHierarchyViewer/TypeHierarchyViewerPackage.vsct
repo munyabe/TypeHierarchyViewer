@@ -72,6 +72,10 @@
     </Bitmaps>
   </Commands>
 
+  <KeyBindings>
+    <KeyBinding guid="guidTypeHierarchyViewerPackageCmdSet" id="OpenTypeHierarchyCommandId" editor="guidCSharpEditorFactory" key1="E" mod1="Control" key2="H" mod2="Control"/>
+  </KeyBindings>
+
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidTypeHierarchyViewerPackage" value="{6d8929af-093e-4b52-a6ea-d0dc93d5a30d}" />
@@ -90,5 +94,8 @@
       <IDSymbol name="bmpPicArrows" value="5" />
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
+
+    <!-- This is the C# text editor guid. -->
+    <GuidSymbol name="guidCSharpEditorFactory" value="{a6c744a8-0e4a-4fc6-886a-064283054674}" />
   </Symbols>
 </CommandTable>
