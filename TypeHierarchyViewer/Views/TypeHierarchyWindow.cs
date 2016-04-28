@@ -27,10 +27,13 @@ namespace TypeHierarchyViewer.Views
         /// 階層を表示します。
         /// </summary>
         /// <param name="targetType">表示する型</param>
-        public void SetTargetType(INamedTypeSymbol targetType)
+        /// <param name="solution">現在のソリューション</param>
+        public void SetTargetType(INamedTypeSymbol targetType, Solution solution)
         {
             var view = ((TypeHierarchyView)Content);
-            ((TypeHierarchyViewModel)view.DataContext).TargetType = targetType;
+            var viewModel = (TypeHierarchyViewModel)view.DataContext;
+            viewModel.CurrentSolution = solution;
+            viewModel.TargetType = targetType;
         }
     }
 }

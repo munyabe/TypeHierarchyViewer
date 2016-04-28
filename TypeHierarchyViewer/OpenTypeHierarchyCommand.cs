@@ -79,7 +79,7 @@ namespace TypeHierarchyViewer
         /// <summary>
         /// 現在選択している型を取得します。
         /// </summary>
-        private INamedTypeSymbol GetSelectedTypeSymbol()
+        private INamedTypeSymbol GetSelectedTypeSymbol(Microsoft.CodeAnalysis.Solution solution)
         {
             var dte = (DTE2)ServiceProvider.GetService(typeof(DTE));
 
@@ -88,9 +88,6 @@ namespace TypeHierarchyViewer
             {
                 return null;
             }
-
-            var componentModel = (IComponentModel)ServiceProvider.GetService(typeof(SComponentModel));
-            var solution = componentModel.GetService<VisualStudioWorkspace>().CurrentSolution;
 
             var docId = solution.GetDocumentIdsWithFilePath(activeDoc.FullName).FirstOrDefault();
             if (docId == null)
@@ -103,6 +100,15 @@ namespace TypeHierarchyViewer
             var position = (selection.ActivePoint.AbsoluteCharOffset - 1) + (selection.CurrentLine - 1);
             var symbol = SymbolFinder.FindSymbolAtPositionAsync(doc, position).Result;
             return FindTypeSymbol(symbol);
+        }
+
+        /// <summary>
+        /// 現在のソリューションを取得します。
+        /// <returns></returns>
+        private Microsoft.CodeAnalysis.Solution GetCurrentSolution()
+        {
+            var componentModel = (IComponentModel)ServiceProvider.GetService(typeof(SComponentModel));
+            return componentModel.GetService<VisualStudioWorkspace>().CurrentSolution;
         }
 
         /// <summary>
@@ -119,7 +125,8 @@ namespace TypeHierarchyViewer
             var windowFrame = (IVsWindowFrame)window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
 
-            window.SetTargetType(GetSelectedTypeSymbol());
+            var solution = GetCurrentSolution();
+            window.SetTargetType(GetSelectedTypeSymbol(solution), solution);
         }
     }
 }

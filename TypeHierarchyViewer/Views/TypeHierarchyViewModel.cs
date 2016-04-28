@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace TypeHierarchyViewer.Views
 {
@@ -12,6 +13,11 @@ namespace TypeHierarchyViewer.Views
     {
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// 現在のソリューションを取得または設定します。
+        /// </summary>
+        public Solution CurrentSolution { get; set; }
 
         private INamedTypeSymbol _targetType;
         /// <summary>
@@ -56,7 +62,7 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 型階層のノードを作成します。
         /// </summary>
-        private static TypeNode[] CreateTypeNodes(INamedTypeSymbol targetType)
+        private TypeNode[] CreateTypeNodes(INamedTypeSymbol targetType)
         {
             if (targetType == null)
             {
@@ -65,7 +71,14 @@ namespace TypeHierarchyViewer.Views
 
             if (targetType.TypeKind == TypeKind.Interface)
             {
-                return new[] { new TypeNode(targetType) };
+                var node = new TypeNode(targetType);
+                node.Children = SymbolFinder.FindImplementationsAsync(targetType, CurrentSolution).Result
+                    .OfType<INamedTypeSymbol>()
+                    .Where(x => x.Locations.Any(y => y.IsInSource))
+                    .Select(x => new TypeNode(x))
+                    .ToArray();
+
+                return new[] { node };
             }
 
             var baseTypes = GetBaseTypes(targetType);
@@ -79,10 +92,11 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 型階層の最上位ノードを作成します。
         /// </summary>
-        private static TypeNode CreateTopNode(INamedTypeSymbol targetType, Stack<INamedTypeSymbol> baseTypes)
+        private TypeNode CreateTopNode(INamedTypeSymbol targetType, Stack<INamedTypeSymbol> baseTypes)
         {
             if (baseTypes.Count == 0)
             {
+                // MEMO : object の場合
                 return new TypeNode(targetType);
             }
 
@@ -96,7 +110,13 @@ namespace TypeHierarchyViewer.Views
                 current = child;
             }
 
-            current.Children = new[] { new TypeNode(targetType) };
+            var leafNode = new TypeNode(targetType);
+            leafNode.Children = SymbolFinder.FindDerivedClassesAsync(targetType, CurrentSolution).Result
+                .Where(x => x.Locations.Any(y => y.IsInSource))
+                .Select(x => new TypeNode(x))
+                .ToArray();
+
+            current.Children = new[] { leafNode };
 
             return result;
         }
