@@ -23,19 +23,7 @@ namespace TypeHierarchyViewer.Views
             set
             {
                 _targetType = value;
-
-                if (value == null)
-                {
-                    TypeNodes = new TypeNode[0];
-                }
-                else
-                {
-                    var topNode = CreateTypeNode(value);
-                    TypeNodes = new[] { topNode }
-                        .Concat(value.AllInterfaces
-                            .Select(x => new TypeNode(x)))
-                        .ToArray();
-                }
+                TypeNodes = CreateTypeNodes(value);
             }
         }
 
@@ -68,9 +56,31 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 型階層のノードを作成します。
         /// </summary>
-        private static TypeNode CreateTypeNode(INamedTypeSymbol targetType)
+        private static TypeNode[] CreateTypeNodes(INamedTypeSymbol targetType)
         {
+            if (targetType == null)
+            {
+                return new TypeNode[0];
+            }
+
+            if (targetType.TypeKind == TypeKind.Interface)
+            {
+                return new[] { new TypeNode(targetType) };
+            }
+
             var baseTypes = GetBaseTypes(targetType);
+            var topNode = CreateTopNode(targetType, baseTypes);
+            return new[] { topNode }
+                .Concat(targetType.AllInterfaces
+                    .Select(x => new TypeNode(x)))
+                .ToArray();
+        }
+
+        /// <summary>
+        /// 型階層の最上位ノードを作成します。
+        /// </summary>
+        private static TypeNode CreateTopNode(INamedTypeSymbol targetType, Stack<INamedTypeSymbol> baseTypes)
+        {
             if (baseTypes.Count == 0)
             {
                 return new TypeNode(targetType);
