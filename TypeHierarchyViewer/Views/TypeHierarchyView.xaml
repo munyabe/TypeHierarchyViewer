@@ -21,7 +21,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding Kind, Converter={x:Static converters:TypeKindToIconConverter.Instance}}" Margin="0, 0, 5, 0" />
                         <TextBlock Text="{Binding Name}" />
-                        <TextBlock Text="{Binding Namespace, StringFormat={} - ({0})}" Foreground="Gray"/>
+                        <TextBlock Text="{Binding Namespace, StringFormat={} - ({0})}" Foreground="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
