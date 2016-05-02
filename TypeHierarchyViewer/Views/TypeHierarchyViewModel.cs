@@ -11,36 +11,39 @@ namespace TypeHierarchyViewer.Views
     /// </summary>
     public class TypeHierarchyViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 現在のソリューションです。
+        /// </summary>
+        private Solution _currentSolution;
+
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// 現在のソリューションを取得または設定します。
-        /// </summary>
-        public Solution CurrentSolution { get; set; }
-
         private INamedTypeSymbol _targetType;
         /// <summary>
-        /// 階層を表示する型を取得または設定します。
+        /// 型階層のターゲットを取得します。
         /// </summary>
         public INamedTypeSymbol TargetType
         {
             get { return _targetType; }
-            set
+            private set
             {
-                _targetType = value;
-                TypeNodes = CreateTypeNodes(value);
+                if (_targetType != value)
+                {
+                    _targetType = value;
+                    OnPropertyChanged(nameof(TargetType));
+                }
             }
         }
 
         private TypeNode[] _typeNodes;
         /// <summary>
-        /// 型階層のノードを取得または設定します。
+        /// 型階層のノードを取得します。
         /// </summary>
         public TypeNode[] TypeNodes
         {
             get { return _typeNodes; }
-            set
+            private set
             {
                 if (_typeNodes != value)
                 {
@@ -48,6 +51,18 @@ namespace TypeHierarchyViewer.Views
                     OnPropertyChanged(nameof(TypeNodes));
                 }
             }
+        }
+
+        /// <summary>
+        /// 型階層を初期化します。
+        /// </summary>
+        /// <param name="targetType">対象の型</param>
+        /// <param name="solution">現在のソリューション</param>
+        public void InitializeTargetType(INamedTypeSymbol targetType, Solution solution)
+        {
+            _currentSolution = solution;
+            TargetType = targetType;
+            TypeNodes = CreateTypeNodes(targetType);
         }
 
         /// <summary>
@@ -72,7 +87,7 @@ namespace TypeHierarchyViewer.Views
             if (targetType.TypeKind == TypeKind.Interface)
             {
                 var node = new TypeNode(targetType);
-                node.Children = SymbolFinder.FindImplementationsAsync(targetType, CurrentSolution).Result
+                node.Children = SymbolFinder.FindImplementationsAsync(targetType, _currentSolution).Result
                     .OfType<INamedTypeSymbol>()
                     .Where(x => x.Locations.Any(y => y.IsInSource))
                     .Select(x => new TypeNode(x))
@@ -111,7 +126,7 @@ namespace TypeHierarchyViewer.Views
             }
 
             var leafNode = new TypeNode(targetType);
-            leafNode.Children = SymbolFinder.FindDerivedClassesAsync(targetType, CurrentSolution).Result
+            leafNode.Children = SymbolFinder.FindDerivedClassesAsync(targetType, _currentSolution).Result
                 .Where(x => x.Locations.Any(y => y.IsInSource))
                 .Select(x => new TypeNode(x))
                 .ToArray();
