@@ -10,7 +10,12 @@
              d:DesignWidth="300"
              mc:Ignorable="d">
     <Grid>
-        <TreeView ItemsSource="{Binding TypeNodes}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding TargetType, Converter={x:Static converters:TypeNameConverter.Instance}}" />
+        <TreeView Grid.Row="1" ItemsSource="{Binding TypeNodes}" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
