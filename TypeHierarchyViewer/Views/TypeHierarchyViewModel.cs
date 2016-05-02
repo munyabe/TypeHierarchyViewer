@@ -84,20 +84,22 @@ namespace TypeHierarchyViewer.Views
                 return new TypeNode[0];
             }
 
+            TypeNode topNode;
             if (targetType.TypeKind == TypeKind.Interface)
             {
-                var node = new TypeNode(targetType);
-                node.Children = SymbolFinder.FindImplementationsAsync(targetType, _currentSolution).Result
+                topNode = new TypeNode(targetType);
+                topNode.Children = SymbolFinder.FindImplementationsAsync(targetType, _currentSolution).Result
                     .OfType<INamedTypeSymbol>()
                     .Where(x => x.Locations.Any(y => y.IsInSource))
                     .Select(x => new TypeNode(x))
                     .ToArray();
-
-                return new[] { node };
+            }
+            else
+            {
+                var baseTypes = GetBaseTypes(targetType);
+                topNode = CreateTopNode(targetType, baseTypes);
             }
 
-            var baseTypes = GetBaseTypes(targetType);
-            var topNode = CreateTopNode(targetType, baseTypes);
             return new[] { topNode }
                 .Concat(targetType.AllInterfaces
                     .Select(x => new TypeNode(x)))
