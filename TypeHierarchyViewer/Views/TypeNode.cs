@@ -8,6 +8,11 @@ namespace TypeHierarchyViewer.Views
     public class TypeNode
     {
         /// <summary>
+        /// 基点となるノードかどうかを取得します。
+        /// </summary>
+        public bool IsBaseNode { get; set; }
+
+        /// <summary>
         /// 型の種類を取得します。
         /// </summary>
         public TypeKind Kind { get; }

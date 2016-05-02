@@ -87,7 +87,7 @@ namespace TypeHierarchyViewer.Views
             TypeNode topNode;
             if (targetType.TypeKind == TypeKind.Interface)
             {
-                topNode = new TypeNode(targetType);
+                topNode = new TypeNode(targetType) { IsBaseNode = true };
                 topNode.Children = SymbolFinder.FindImplementationsAsync(targetType, _currentSolution).Result
                     .OfType<INamedTypeSymbol>()
                     .Where(x => x.Locations.Any(y => y.IsInSource))
@@ -127,7 +127,7 @@ namespace TypeHierarchyViewer.Views
                 current = child;
             }
 
-            var leafNode = new TypeNode(targetType);
+            var leafNode = new TypeNode(targetType) { IsBaseNode = true };
             leafNode.Children = SymbolFinder.FindDerivedClassesAsync(targetType, _currentSolution).Result
                 .Where(x => x.Locations.Any(y => y.IsInSource))
                 .Select(x => new TypeNode(x))

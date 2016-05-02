@@ -29,6 +29,11 @@
             <TreeView.Resources>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="True" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBaseNode}" Value="True">
+                            <Setter Property="Background" Value="SandyBrown"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </TreeView.Resources>
         </TreeView>
