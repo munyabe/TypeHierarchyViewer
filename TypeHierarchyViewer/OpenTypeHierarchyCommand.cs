@@ -103,12 +103,12 @@ namespace TypeHierarchyViewer
         }
 
         /// <summary>
-        /// 現在のソリューションを取得します。
+        /// 現在のワークスペースを取得します。
         /// <returns></returns>
-        private Microsoft.CodeAnalysis.Solution GetCurrentSolution()
+        private VisualStudioWorkspace GetWorkspace()
         {
             var componentModel = (IComponentModel)ServiceProvider.GetService(typeof(SComponentModel));
-            return componentModel.GetService<VisualStudioWorkspace>().CurrentSolution;
+            return componentModel.GetService<VisualStudioWorkspace>();
         }
 
         /// <summary>
@@ -125,8 +125,8 @@ namespace TypeHierarchyViewer
             var windowFrame = (IVsWindowFrame)window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
 
-            var solution = GetCurrentSolution();
-            window.SetTargetType(GetSelectedTypeSymbol(solution), solution);
+            var workspace = GetWorkspace();
+            window.SetTargetType(GetSelectedTypeSymbol(workspace.CurrentSolution), workspace);
         }
     }
 }
