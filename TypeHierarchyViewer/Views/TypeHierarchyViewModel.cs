@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FindSymbols;
+using Microsoft.VisualStudio.LanguageServices;
 
 namespace TypeHierarchyViewer.Views
 {
@@ -12,9 +13,9 @@ namespace TypeHierarchyViewer.Views
     public class TypeHierarchyViewModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// 現在のソリューションです。
+        /// 現在のワークスペースです。
         /// </summary>
-        private Solution _currentSolution;
+        private VisualStudioWorkspace _workspace;
 
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
@@ -57,10 +58,10 @@ namespace TypeHierarchyViewer.Views
         /// 型階層を初期化します。
         /// </summary>
         /// <param name="targetType">対象の型</param>
-        /// <param name="solution">現在のソリューション</param>
-        public void InitializeTargetType(INamedTypeSymbol targetType, Solution solution)
+        /// <param name="workspace">現在のワークスペース</param>
+        public void InitializeTargetType(INamedTypeSymbol targetType, VisualStudioWorkspace workspace)
         {
-            _currentSolution = solution;
+            _workspace = workspace;
             TargetType = targetType;
             TypeNodes = CreateTypeNodes(targetType);
         }
@@ -88,7 +89,7 @@ namespace TypeHierarchyViewer.Views
             if (targetType.TypeKind == TypeKind.Interface)
             {
                 topNode = new TypeNode(targetType) { IsBaseNode = true };
-                topNode.Children = SymbolFinder.FindImplementationsAsync(targetType, _currentSolution).Result
+                topNode.Children = SymbolFinder.FindImplementationsAsync(targetType, _workspace.CurrentSolution).Result
                     .OfType<INamedTypeSymbol>()
                     .Where(x => x.Locations.Any(y => y.IsInSource))
                     .Select(x => new TypeNode(x))
@@ -128,7 +129,7 @@ namespace TypeHierarchyViewer.Views
             }
 
             var leafNode = new TypeNode(targetType) { IsBaseNode = true };
-            leafNode.Children = SymbolFinder.FindDerivedClassesAsync(targetType, _currentSolution).Result
+            leafNode.Children = SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution).Result
                 .Where(x => x.Locations.Any(y => y.IsInSource))
                 .Select(x => new TypeNode(x))
                 .ToArray();

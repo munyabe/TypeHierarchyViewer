@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 
 namespace TypeHierarchyViewer.Views
@@ -27,12 +28,12 @@ namespace TypeHierarchyViewer.Views
         /// 階層を表示します。
         /// </summary>
         /// <param name="targetType">対象の型</param>
-        /// <param name="solution">現在のソリューション</param>
-        public void SetTargetType(INamedTypeSymbol targetType, Solution solution)
+        /// <param name="workspace">現在のワークスペース</param>
+        public void SetTargetType(INamedTypeSymbol targetType, VisualStudioWorkspace workspace)
         {
             var view = ((TypeHierarchyView)Content);
             var viewModel = (TypeHierarchyViewModel)view.DataContext;
-            viewModel.InitializeTargetType(targetType, solution);
+            viewModel.InitializeTargetType(targetType, workspace);
         }
     }
 }
