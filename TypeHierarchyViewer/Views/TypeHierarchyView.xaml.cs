@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace TypeHierarchyViewer.Views
 {
@@ -13,6 +14,14 @@ namespace TypeHierarchyViewer.Views
         public TypeHierarchyView()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// マウスボタンの動作を抑制します。
+        /// </summary>
+        private void HandledMouseButtonEvent(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }
