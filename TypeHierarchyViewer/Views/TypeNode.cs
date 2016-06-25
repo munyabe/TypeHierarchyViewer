@@ -33,6 +33,11 @@ namespace TypeHierarchyViewer.Views
         public TypeNode[] Children { get; set; }
 
         /// <summary>
+        /// 型のシンボルを取得します。
+        /// </summary>
+        public INamedTypeSymbol Source { get; }
+
+        /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="source">元となる型</param>
@@ -41,6 +46,7 @@ namespace TypeHierarchyViewer.Views
             Name = source.Name;
             Kind = source.TypeKind;
             Namespace = source.ContainingNamespace.ToString();
+            Source = source;
         }
     }
 }

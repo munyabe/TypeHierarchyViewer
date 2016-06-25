@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.VisualStudio.LanguageServices;
@@ -64,6 +65,25 @@ namespace TypeHierarchyViewer.Views
             _workspace = workspace;
             TargetType = targetType;
             TypeNodes = CreateTypeNodes(targetType);
+        }
+
+        /// <summary>
+        /// 指定されたノードの定義を開きます。
+        /// </summary>
+        public void OpenSymbol(TypeNode node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            foreach (var project in _workspace.CurrentSolution.Projects)
+            {
+                if (_workspace.TryGoToDefinition(node.Source, project, CancellationToken.None))
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>

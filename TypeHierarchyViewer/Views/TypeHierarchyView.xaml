@@ -30,6 +30,7 @@
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="True" />
                     <EventSetter Event="MouseDoubleClick" Handler="HandledMouseButtonEvent" />
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="OpenItemSymbol" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsBaseNode}" Value="True">
                             <Setter Property="Background" Value="SandyBrown"/>
