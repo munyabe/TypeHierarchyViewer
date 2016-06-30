@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using TypeHierarchyViewer.Views;
 
 namespace TypeHierarchyViewer
@@ -15,6 +16,8 @@ namespace TypeHierarchyViewer
     [ProvideToolWindow(typeof(TypeHierarchyWindow))]
     public sealed class TypeHierarchyViewerPackage : Package
     {
+        private uint _solutionEventCoockie;
+
         /// <summary>
         /// パッケージのIDです。
         /// </summary>
@@ -27,6 +30,22 @@ namespace TypeHierarchyViewer
         {
             base.Initialize();
             OpenTypeHierarchyCommand.Initialize(this);
+            GetVsSolutionService().AdviseSolutionEvents(new VsSolutionEventsHandler(this), out _solutionEventCoockie);
+        }
+
+        /// <inheritdoc />
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            GetVsSolutionService().UnadviseSolutionEvents(_solutionEventCoockie);
+        }
+
+        /// <summary>
+        /// <see cref="IVsSolution"/>のインスタンスを取得します。
+        /// </summary>
+        private static IVsSolution GetVsSolutionService()
+        {
+            return (IVsSolution)ServiceProvider.GlobalProvider.GetService(typeof(SVsSolution));
         }
     }
 }

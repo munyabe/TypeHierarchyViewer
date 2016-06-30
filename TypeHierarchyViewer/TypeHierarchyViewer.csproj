@@ -65,6 +65,7 @@
       <DependentUpon>TypeHierarchyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TypeNode.cs" />
+    <Compile Include="VsSolutionEventsHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

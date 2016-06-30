@@ -56,6 +56,15 @@ namespace TypeHierarchyViewer.Views
         }
 
         /// <summary>
+        /// 型階層をクリアします。
+        /// </summary>
+        public void Clear()
+        {
+            TargetType = null;
+            TypeNodes = new TypeNode[0];
+        }
+
+        /// <summary>
         /// 型階層を初期化します。
         /// </summary>
         /// <param name="targetType">対象の型</param>

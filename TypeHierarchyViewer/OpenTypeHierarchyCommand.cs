@@ -116,17 +116,12 @@ namespace TypeHierarchyViewer
         /// </summary>
         private void ShowToolWindow()
         {
-            var window = Package.FindToolWindow(typeof(TypeHierarchyWindow), 0, true) as TypeHierarchyWindow;
-            if (null == window || null == window.Frame)
-            {
-                throw new NotSupportedException("Cannot create tool window");
-            }
-
+            var window = TypeHierarchyWindow.GetWindow(Package);
             var windowFrame = (IVsWindowFrame)window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
 
             var workspace = GetWorkspace();
-            window.SetTargetType(GetSelectedTypeSymbol(workspace.CurrentSolution), workspace);
+            window.ViewModel.InitializeTargetType(GetSelectedTypeSymbol(workspace.CurrentSolution), workspace);
         }
     }
 }
