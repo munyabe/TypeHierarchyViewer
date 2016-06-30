@@ -12,10 +12,18 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding TargetType, Converter={x:Static converters:TypeNameConverter.Instance}}" />
-        <TreeView Grid.Row="1" ItemsSource="{Binding TypeNodes}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ToolBarTray IsLocked="True">
+            <ToolBar>
+                <ToggleButton Click="ChangeDisplayMode">
+                    Base Only
+                </ToggleButton>
+            </ToolBar>
+        </ToolBarTray>
+        <TextBlock Grid.Row="1" Text="{Binding TargetType, Converter={x:Static converters:TypeNameConverter.Instance}}" />
+        <TreeView Grid.Row="2" ItemsSource="{Binding TypeNodes}" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">

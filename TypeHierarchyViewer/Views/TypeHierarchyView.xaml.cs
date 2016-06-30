@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace TypeHierarchyViewer.Views
@@ -14,6 +16,17 @@ namespace TypeHierarchyViewer.Views
         public TypeHierarchyView()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 型階層の表示モードを切り替えます。
+        /// </summary>
+        private void ChangeDisplayMode(object sender, RoutedEventArgs e)
+        {
+            var button = (ToggleButton)sender;
+            var viewModel = (TypeHierarchyViewModel)DataContext;
+            viewModel.DisplayMode = button.IsChecked.HasValue && button.IsChecked.Value ?
+                DisplayMode.BaseDetail : DisplayMode.BaseSummaryAndChildren;
         }
 
         /// <summary>
@@ -37,6 +50,11 @@ namespace TypeHierarchyViewer.Views
                 var viewModel = (TypeHierarchyViewModel)DataContext;
                 viewModel.OpenSymbol(item.DataContext as TypeNode);
             }
+        }
+
+        private void ToggleButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

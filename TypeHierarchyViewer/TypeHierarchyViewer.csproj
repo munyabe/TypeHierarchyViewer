@@ -59,6 +59,7 @@
     <Compile Include="TypeHierarchyViewerPackage.cs" />
     <Compile Include="Views\Converters\TypeKindToIconConverter.cs" />
     <Compile Include="Views\Converters\TypeNameConverter.cs" />
+    <Compile Include="Views\DisplayMode.cs" />
     <Compile Include="Views\TypeHierarchyViewModel.cs" />
     <Compile Include="Views\TypeHierarchyWindow.cs" />
     <Compile Include="Views\TypeHierarchyView.xaml.cs">

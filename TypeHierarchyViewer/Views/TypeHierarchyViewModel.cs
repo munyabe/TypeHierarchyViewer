@@ -21,6 +21,23 @@ namespace TypeHierarchyViewer.Views
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private DisplayMode _displayMode;
+        /// <summary>
+        /// 型階層の表示モードを取得または設定します。
+        /// </summary>
+        public DisplayMode DisplayMode
+        {
+            get { return _displayMode; }
+            set
+            {
+                if (_displayMode != value)
+                {
+                    _displayMode = value;
+                    TypeNodes = CreateTypeNodes(TargetType);
+                }
+            }
+        }
+
         private INamedTypeSymbol _targetType;
         /// <summary>
         /// 型階層のターゲットを取得します。
@@ -109,15 +126,30 @@ namespace TypeHierarchyViewer.Views
         }
 
         /// <summary>
-        /// 型階層のノードを作成します。
+        /// 親クラスとインターフェースの詳細の型階層を表すノードを作成します。
         /// </summary>
-        private TypeNode[] CreateTypeNodes(INamedTypeSymbol targetType)
+        private TypeNode[] CreateBaseDetailNodes(INamedTypeSymbol targetType)
         {
-            if (targetType == null)
+            var topNode = new TypeNode(targetType);
+
+            var current = topNode;
+            foreach (var baseType in GetBaseTypes(targetType))
             {
-                return new TypeNode[0];
+                var child = new TypeNode(baseType);
+                current.Children = new[] { child }
+                    .Concat(current.Source.Interfaces.Select(x => new TypeNode(x)))
+                    .ToArray();
+                current = child;
             }
 
+            return new[] { topNode };
+        }
+
+        /// <summary>
+        /// 親クラスとインターフェースのサマリー、子クラスの型階層を表すノードを作成します。
+        /// </summary>
+        private TypeNode[] CreateBaseSummaryAndChildrenNodes(INamedTypeSymbol targetType)
+        {
             TypeNode topNode;
             if (targetType.TypeKind == TypeKind.Interface)
             {
@@ -130,7 +162,7 @@ namespace TypeHierarchyViewer.Views
             }
             else
             {
-                var baseTypes = GetBaseTypes(targetType);
+                var baseTypes = GetBaseTypesByDesc(targetType);
                 topNode = CreateTopNode(targetType, baseTypes);
             }
 
@@ -173,9 +205,46 @@ namespace TypeHierarchyViewer.Views
         }
 
         /// <summary>
+        /// 型階層のノードを作成します。
+        /// </summary>
+        private TypeNode[] CreateTypeNodes(INamedTypeSymbol targetType)
+        {
+            if (targetType == null)
+            {
+                return new TypeNode[0];
+            }
+
+            if (DisplayMode == DisplayMode.BaseSummaryAndChildren)
+            {
+                return CreateBaseSummaryAndChildrenNodes(targetType);
+            }
+            else if (DisplayMode == DisplayMode.BaseDetail)
+            {
+                return CreateBaseDetailNodes(targetType);
+            }
+            else
+            {
+                return new TypeNode[0];
+            }
+        }
+
+        /// <summary>
+        /// 親クラスの一覧を取得します。
+        /// </summary>
+        private static IEnumerable<INamedTypeSymbol> GetBaseTypes(INamedTypeSymbol type)
+        {
+            var current = type.BaseType;
+            while (current != null)
+            {
+                yield return current;
+                current = current.BaseType;
+            }
+        }
+
+        /// <summary>
         /// 親クラスの一覧を最上位から順に取得します。
         /// </summary>
-        private static Stack<INamedTypeSymbol> GetBaseTypes(INamedTypeSymbol type)
+        private static Stack<INamedTypeSymbol> GetBaseTypesByDesc(INamedTypeSymbol type)
         {
             var result = new Stack<INamedTypeSymbol>();
 
