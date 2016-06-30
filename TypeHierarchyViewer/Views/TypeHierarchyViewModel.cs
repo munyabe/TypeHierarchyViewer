@@ -86,7 +86,11 @@ namespace TypeHierarchyViewer.Views
                 return;
             }
 
-            foreach (var project in _workspace.CurrentSolution.Projects)
+            var currentProject = _workspace.CurrentSolution.GetProject(TargetType.ContainingAssembly);
+            var candidateProjects = currentProject != null ?
+                GetCandidateProjects(currentProject) : _workspace.CurrentSolution.Projects;
+
+            foreach (var project in candidateProjects)
             {
                 if (_workspace.TryGoToDefinition(node.Source, project, CancellationToken.None))
                 {
@@ -183,6 +187,24 @@ namespace TypeHierarchyViewer.Views
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 定義の探索候補となるプロジェクト一覧を取得します。
+        /// </summary>
+        private IEnumerable<Project> GetCandidateProjects(Project currentProject)
+        {
+            yield return currentProject;
+
+            var solution = _workspace.CurrentSolution;
+            var projectIds = solution.GetProjectDependencyGraph()
+                .GetProjectsThatThisProjectDirectlyDependsOn(currentProject.Id)
+                .Select(solution.GetProject);
+
+            foreach (var project in projectIds)
+            {
+                yield return project;
+            }
         }
     }
 }
