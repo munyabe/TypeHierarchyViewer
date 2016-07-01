@@ -51,10 +51,5 @@ namespace TypeHierarchyViewer.Views
                 viewModel.OpenSymbol(item.DataContext as TypeNode);
             }
         }
-
-        private void ToggleButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }
