@@ -128,7 +128,7 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 親クラスとインターフェースの詳細の型階層を表すノードを作成します。
         /// </summary>
-        private TypeNode[] CreateBaseDetailNodes(INamedTypeSymbol targetType)
+        private static TypeNode[] CreateBaseDetailNodes(INamedTypeSymbol targetType)
         {
             var topNode = new TypeNode(targetType);
 
@@ -150,36 +150,42 @@ namespace TypeHierarchyViewer.Views
         /// </summary>
         private TypeNode[] CreateBaseSummaryAndChildrenNodes(INamedTypeSymbol targetType)
         {
-            TypeNode topNode;
             if (targetType.TypeKind == TypeKind.Interface)
             {
-                topNode = new TypeNode(targetType) { IsBaseNode = true };
+                var topNode = new TypeNode(targetType) { IsBaseNode = true };
                 topNode.Children = SymbolFinder.FindImplementationsAsync(targetType, _workspace.CurrentSolution).Result
                     .OfType<INamedTypeSymbol>()
                     .Where(x => x.Locations.Any(y => y.IsInSource))
                     .Select(x => new TypeNode(x))
                     .ToArray();
+
+                return new[] { topNode };
+            }
+            else if (targetType.SpecialType == SpecialType.System_Object)
+            {
+                return new[] { new TypeNode(targetType) };
             }
             else
             {
-                var baseTypes = GetBaseTypesByDesc(targetType);
-                topNode = CreateTopNode(targetType, baseTypes);
-            }
+                var leafNode = CreateDerivedTypeNodes(targetType);
+                leafNode.IsBaseNode = true;
+                var topNode = CreateBaseTypeNodes(targetType, leafNode);
 
-            return new[] { topNode }
-                .Concat(targetType.AllInterfaces
-                    .Select(x => new TypeNode(x)))
-                .ToArray();
+                return new[] { topNode }
+                    .Concat(targetType.AllInterfaces
+                        .Select(x => new TypeNode(x)))
+                    .ToArray();
+            }
         }
 
         /// <summary>
-        /// 型階層の最上位ノードを作成します。
+        /// 親クラスの型階層を表すノードを作成します。
         /// </summary>
-        private TypeNode CreateTopNode(INamedTypeSymbol targetType, Stack<INamedTypeSymbol> baseTypes)
+        private static TypeNode CreateBaseTypeNodes(INamedTypeSymbol targetType, TypeNode leafNode)
         {
+            var baseTypes = GetBaseTypesByDesc(targetType);
             if (baseTypes.Count == 0)
             {
-                // MEMO : object の場合
                 return new TypeNode(targetType);
             }
 
@@ -193,13 +199,24 @@ namespace TypeHierarchyViewer.Views
                 current = child;
             }
 
-            var leafNode = new TypeNode(targetType) { IsBaseNode = true };
-            leafNode.Children = SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution).Result
+            if (leafNode != null)
+            {
+                current.Children = new[] { leafNode };
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 子クラスを含んだノードを作成します。
+        /// </summary>
+        private TypeNode CreateDerivedTypeNodes(INamedTypeSymbol targetType)
+        {
+            var result = new TypeNode(targetType);
+            result.Children = SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution).Result
                 .Where(x => x.Locations.Any(y => y.IsInSource))
                 .Select(x => new TypeNode(x))
                 .ToArray();
-
-            current.Children = new[] { leafNode };
 
             return result;
         }
