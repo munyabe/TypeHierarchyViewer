@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypeHierarchyViewer.Views
@@ -46,7 +47,16 @@ namespace TypeHierarchyViewer.Views
         /// <param name="children">子ノード</param>
         public TypeNode(INamedTypeSymbol source, bool isBaseNode = false, IEnumerable<TypeNode> children = null)
         {
-            Name = source.Name;
+            if (source.IsGenericType)
+            {
+                var parameters = source.TypeParameters.Select(x => x.Name);
+                Name = $"{source.Name}<{string.Join(", ", parameters)}>";
+            }
+            else
+            {
+                Name = source.Name;
+            }
+
             Kind = source.TypeKind;
             Namespace = source.ContainingNamespace.ToString();
             Source = source;
