@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -33,6 +34,23 @@ namespace TypeHierarchyViewer.Views
                 if (_displayMode != value)
                 {
                     _displayMode = value;
+                    TypeNodes = CreateTypeNodes(TargetType);
+                }
+            }
+        }
+
+        private bool _includedMetadata;
+        /// <summary>
+        /// 子クラスの検索にメタデータを含めるかどうかを取得または設定します。
+        /// </summary>
+        public bool IncludedMetadata
+        {
+            get { return _includedMetadata; }
+            set
+            {
+                if (_includedMetadata != value)
+                {
+                    _includedMetadata = value;
                     TypeNodes = CreateTypeNodes(TargetType);
                 }
             }
@@ -230,8 +248,18 @@ namespace TypeHierarchyViewer.Views
         /// </summary>
         private TypeNode CreateDerivedTypeNodes(INamedTypeSymbol targetType)
         {
+            Func<INamedTypeSymbol, bool> filter;
+            if (IncludedMetadata)
+            {
+                filter = x => true;
+            }
+            else
+            {
+                filter = x => x.Locations.Any(y => y.IsInSource);
+            }
+
             var children = SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution).Result
-                .Where(x => x.Locations.Any(y => y.IsInSource))
+                .Where(filter)
                 .Select(x => new TypeNode(x));
 
             return new TypeNode(targetType, true, children);

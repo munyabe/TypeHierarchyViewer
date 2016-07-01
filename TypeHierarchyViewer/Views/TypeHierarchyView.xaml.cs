@@ -23,10 +23,20 @@ namespace TypeHierarchyViewer.Views
         /// </summary>
         private void ChangeDisplayMode(object sender, RoutedEventArgs e)
         {
-            var button = (ToggleButton)sender;
+            var isChecked = ((ToggleButton)sender).IsChecked;
             var viewModel = (TypeHierarchyViewModel)DataContext;
-            viewModel.DisplayMode = button.IsChecked.HasValue && button.IsChecked.Value ?
+            viewModel.DisplayMode = isChecked.HasValue && isChecked.Value ?
                 DisplayMode.BaseDetail : DisplayMode.BaseSummaryAndChildren;
+        }
+
+        /// <summary>
+        /// 子クラスの検索にメタデータを含めるかどうかを切り替えます。
+        /// </summary>
+        private void ChangeIncludedMetadata(object sender, RoutedEventArgs e)
+        {
+            var isChecked = ((ToggleButton)sender).IsChecked;
+            var viewModel = (TypeHierarchyViewModel)DataContext;
+            viewModel.IncludedMetadata = isChecked.HasValue && isChecked.Value;
         }
 
         /// <summary>

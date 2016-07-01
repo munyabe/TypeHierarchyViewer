@@ -20,6 +20,9 @@
                 <ToggleButton Click="ChangeDisplayMode">
                     Base Only
                 </ToggleButton>
+                <ToggleButton Click="ChangeIncludedMetadata">
+                    Included Subtypes in Metadata 
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
         <TextBlock Grid.Row="1" Text="{Binding TargetType, Converter={x:Static converters:TypeNameConverter.Instance}}" />
