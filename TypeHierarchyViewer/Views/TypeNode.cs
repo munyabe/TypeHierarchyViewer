@@ -10,7 +10,7 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 基点となるノードかどうかを取得します。
         /// </summary>
-        public bool IsBaseNode { get; set; }
+        public bool IsBaseNode { get; }
 
         /// <summary>
         /// 型の種類を取得します。
@@ -41,12 +41,13 @@ namespace TypeHierarchyViewer.Views
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="source">元となる型</param>
-        public TypeNode(INamedTypeSymbol source)
+        public TypeNode(INamedTypeSymbol source, bool isBaseNode = false)
         {
             Name = source.Name;
             Kind = source.TypeKind;
             Namespace = source.ContainingNamespace.ToString();
             Source = source;
+            IsBaseNode = isBaseNode;
         }
     }
 }

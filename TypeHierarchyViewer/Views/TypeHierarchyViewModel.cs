@@ -130,7 +130,7 @@ namespace TypeHierarchyViewer.Views
         /// </summary>
         private static TypeNode[] CreateBaseDetailNodes(INamedTypeSymbol targetType)
         {
-            var topNode = new TypeNode(targetType);
+            var topNode = new TypeNode(targetType, true);
 
             var current = topNode;
             foreach (var baseType in GetBaseTypes(targetType))
@@ -152,7 +152,7 @@ namespace TypeHierarchyViewer.Views
         {
             if (targetType.TypeKind == TypeKind.Interface)
             {
-                var topNode = new TypeNode(targetType) { IsBaseNode = true };
+                var topNode = new TypeNode(targetType, true);
                 topNode.Children = SymbolFinder.FindImplementationsAsync(targetType, _workspace.CurrentSolution).Result
                     .OfType<INamedTypeSymbol>()
                     .Where(x => x.Locations.Any(y => y.IsInSource))
@@ -163,12 +163,11 @@ namespace TypeHierarchyViewer.Views
             }
             else if (targetType.SpecialType == SpecialType.System_Object)
             {
-                return new[] { new TypeNode(targetType) };
+                return new[] { new TypeNode(targetType, true) };
             }
             else
             {
                 var leafNode = CreateDerivedTypeNodes(targetType);
-                leafNode.IsBaseNode = true;
                 var topNode = CreateBaseTypeNodes(targetType, leafNode);
 
                 return new[] { topNode }
@@ -212,7 +211,7 @@ namespace TypeHierarchyViewer.Views
         /// </summary>
         private TypeNode CreateDerivedTypeNodes(INamedTypeSymbol targetType)
         {
-            var result = new TypeNode(targetType);
+            var result = new TypeNode(targetType, true);
             result.Children = SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution).Result
                 .Where(x => x.Locations.Any(y => y.IsInSource))
                 .Select(x => new TypeNode(x))
