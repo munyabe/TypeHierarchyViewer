@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 
 namespace TypeHierarchyViewer.Views
 {
@@ -28,9 +29,9 @@ namespace TypeHierarchyViewer.Views
         public string Namespace { get; }
 
         /// <summary>
-        /// 型の子を取得または設定します。
+        /// 型の子ノードを取得します。
         /// </summary>
-        public TypeNode[] Children { get; set; }
+        public IList<TypeNode> Children { get; }
 
         /// <summary>
         /// 型のシンボルを取得します。
@@ -41,13 +42,17 @@ namespace TypeHierarchyViewer.Views
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="source">元となる型</param>
-        public TypeNode(INamedTypeSymbol source, bool isBaseNode = false)
+        /// <param name="isBaseNode">基点となるノードの場合は<see langword="true" /></param>
+        /// <param name="children">子ノード</param>
+        public TypeNode(INamedTypeSymbol source, bool isBaseNode = false, IEnumerable<TypeNode> children = null)
         {
             Name = source.Name;
             Kind = source.TypeKind;
             Namespace = source.ContainingNamespace.ToString();
             Source = source;
             IsBaseNode = isBaseNode;
+
+            Children = children != null ? new List<TypeNode>(children) : new List<TypeNode>();
         }
     }
 }
