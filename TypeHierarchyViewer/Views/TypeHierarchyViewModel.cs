@@ -192,7 +192,7 @@ namespace TypeHierarchyViewer.Views
             {
                 var children = SymbolFinder.FindImplementationsAsync(targetType, _workspace.CurrentSolution).Result
                     .OfType<INamedTypeSymbol>()
-                    .Where(x => x.Locations.Any(y => y.IsInSource))
+                    .Where(CreateSubtypeFilter())
                     .Select(x => new TypeNode(x));
 
                 var topNode = new TypeNode(targetType, true, children);
@@ -248,21 +248,26 @@ namespace TypeHierarchyViewer.Views
         /// </summary>
         private TypeNode CreateDerivedTypeNodes(INamedTypeSymbol targetType)
         {
-            Func<INamedTypeSymbol, bool> filter;
-            if (IncludedMetadata)
-            {
-                filter = x => true;
-            }
-            else
-            {
-                filter = x => x.Locations.Any(y => y.IsInSource);
-            }
-
             var children = SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution).Result
-                .Where(filter)
+                .Where(CreateSubtypeFilter())
                 .Select(x => new TypeNode(x));
 
             return new TypeNode(targetType, true, children);
+        }
+
+        /// <summary>
+        /// 子クラスをフィルタリングする処理を取得します。
+        /// </summary>
+        private Func<INamedTypeSymbol, bool> CreateSubtypeFilter()
+        {
+            if (IncludedMetadata)
+            {
+                return x => true;
+            }
+            else
+            {
+                return x => x.Locations.Any(y => y.IsInSource);
+            }
         }
 
         /// <summary>
