@@ -14,12 +14,12 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// ツールバーのメニューIDです。
         /// </summary>
-        public const int ToolBarMenuId = 0x1000;
+        public const int ToolbarMenuId = 0x1000;
 
         /// <summary>
         /// ツールバーのコマンドセットIDです。
         /// </summary>
-        public static readonly Guid ToolBarCommandSetId = new Guid("0ce5d1ff-906d-4e42-9433-e23abe8af06e");
+        public static readonly Guid ToolbarCommandSetId = new Guid("0ce5d1ff-906d-4e42-9433-e23abe8af06e");
 
         /// <summary>
         /// データを格納するViewModelを取得します。
@@ -44,7 +44,7 @@ namespace TypeHierarchyViewer.Views
                 DataContext = new TypeHierarchyViewModel()
             };
 
-            ToolBar = new CommandID(ToolBarCommandSetId, ToolBarMenuId);
+            ToolBar = new CommandID(ToolbarCommandSetId, ToolbarMenuId);
         }
 
         /// <summary>

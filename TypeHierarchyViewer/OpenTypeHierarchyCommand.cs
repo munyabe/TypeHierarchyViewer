@@ -24,9 +24,9 @@ namespace TypeHierarchyViewer
         public const int CommandId = 0x0100;
 
         /// <summary>
-        /// コマンドメニューグループのIDです。
+        /// 所属するコマンドセットのIDです。
         /// </summary>
-        public static readonly Guid CommandSet = new Guid("d0792db2-419d-4fe0-9215-49e33d72e0eb");
+        public static readonly Guid CommandSetId = new Guid("d0792db2-419d-4fe0-9215-49e33d72e0eb");
 
         /// <summary>
         /// シングルトンのインスタンスを取得します。
@@ -37,7 +37,7 @@ namespace TypeHierarchyViewer
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        private OpenTypeHierarchyCommand(Package package) : base(package, CommandId, CommandSet)
+        private OpenTypeHierarchyCommand(Package package) : base(package, CommandId, CommandSetId)
         {
         }
 

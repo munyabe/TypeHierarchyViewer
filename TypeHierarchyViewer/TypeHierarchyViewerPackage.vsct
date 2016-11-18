@@ -36,7 +36,7 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Menus>
-      <Menu guid="guidTypeHierarchyWindowToolBarCmdSet" id="MenuId" type="ToolWindowToolbar">
+      <Menu guid="guidTypeHierarchyWindowToolbarCmdSet" id="MenuId" type="ToolWindowToolbar">
         <CommandFlag>DefaultDocked</CommandFlag>
         <Strings>
           <ButtonText>Tool bar for Type Hierarchy Window</ButtonText>
@@ -45,8 +45,8 @@
     </Menus>
 
     <Groups>
-      <Group guid="guidTypeHierarchyWindowToolBarCmdSet" id="GroupId" priority="0x0000">
-        <Parent guid="guidTypeHierarchyWindowToolBarCmdSet" id="MenuId" />
+      <Group guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" priority="0x0000">
+        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="MenuId" />
       </Group>
     </Groups>
     
@@ -69,15 +69,15 @@
         </Strings>
       </Button>
       
-      <Button guid="guidTypeHierarchyWindowToolBarCmdSet" id="SwitchDisplayModeCommandId" priority="0x0000" type="Button">
-        <Parent guid="guidTypeHierarchyWindowToolBarCmdSet" id="GroupId" />
+      <Button guid="guidTypeHierarchyWindowToolbarCmdSet" id="SwitchDisplayModeCommandId" priority="0x0000" type="Button">
+        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" />
         <Strings>
           <ButtonText>Switch Display Mode</ButtonText>
         </Strings>
       </Button>
     
-      <Button guid="guidTypeHierarchyWindowToolBarCmdSet" id="SwitchIncludedMetadataCommandId" priority="0x0001" type="Button">
-        <Parent guid="guidTypeHierarchyWindowToolBarCmdSet" id="GroupId" />
+      <Button guid="guidTypeHierarchyWindowToolbarCmdSet" id="SwitchIncludedMetadataCommandId" priority="0x0001" type="Button">
+        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" />
         <Strings>
           <ButtonText>Included Subtypes in Metadata</ButtonText>
         </Strings>
@@ -116,9 +116,9 @@
     </GuidSymbol>
 
     <!-- This is the guid used to group toolbar commands together -->
-    <GuidSymbol name="guidTypeHierarchyWindowToolBarCmdSet" value="{0ce5d1ff-906d-4e42-9433-e23abe8af06e}">
+    <GuidSymbol name="guidTypeHierarchyWindowToolbarCmdSet" value="{0ce5d1ff-906d-4e42-9433-e23abe8af06e}">
       <IDSymbol name="MenuId" value="0x1000" />
-      <IDSymbol name="GroupId" value="0x2000" />
+      <IDSymbol name="BasicGroupId" value="0x2000" />
       <IDSymbol name="SwitchDisplayModeCommandId" value="0x0110" />
       <IDSymbol name="SwitchIncludedMetadataCommandId" value="0x0111" />
     </GuidSymbol>

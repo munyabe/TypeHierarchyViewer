@@ -22,7 +22,7 @@ namespace TypeHierarchyViewer.Views.Commands
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        private SwitchIncludedMetadataCommand(Package package) : base(package, CommandId, TypeHierarchyWindow.ToolBarCommandSetId)
+        private SwitchIncludedMetadataCommand(Package package) : base(package, CommandId, TypeHierarchyWindow.ToolbarCommandSetId)
         {
         }
 
