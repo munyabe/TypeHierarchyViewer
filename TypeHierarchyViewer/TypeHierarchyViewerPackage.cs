@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using TypeHierarchyViewer.Views;
+using TypeHierarchyViewer.Views.Commands;
 
 namespace TypeHierarchyViewer
 {
@@ -30,6 +31,8 @@ namespace TypeHierarchyViewer
         {
             base.Initialize();
             OpenTypeHierarchyCommand.Initialize(this);
+            SwitchDisplayModeCommand.Initialize(this);
+            SwitchIncludedMetadataCommand.Initialize(this);
             GetVsSolutionService().AdviseSolutionEvents(new VsSolutionEventsHandler(this), out _solutionEventCoockie);
         }
 

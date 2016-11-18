@@ -12,19 +12,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ToolBarTray IsLocked="True">
-            <ToolBar>
-                <ToggleButton Click="ChangeDisplayMode">
-                    Base Only
-                </ToggleButton>
-                <ToggleButton Click="ChangeIncludedMetadata">
-                    Included Subtypes in Metadata 
-                </ToggleButton>
-            </ToolBar>
-        </ToolBarTray>
         <TextBlock Grid.Row="1" Text="{Binding TargetType, Converter={x:Static converters:TypeNameConverter.Instance}}" />
         <TreeView Grid.Row="2" ItemsSource="{Binding TypeNodes}" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TreeView.ItemTemplate>

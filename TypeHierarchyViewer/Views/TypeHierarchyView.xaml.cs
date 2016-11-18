@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace TypeHierarchyViewer.Views
@@ -16,27 +14,6 @@ namespace TypeHierarchyViewer.Views
         public TypeHierarchyView()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// 型階層の表示モードを切り替えます。
-        /// </summary>
-        private void ChangeDisplayMode(object sender, RoutedEventArgs e)
-        {
-            var isChecked = ((ToggleButton)sender).IsChecked;
-            var viewModel = (TypeHierarchyViewModel)DataContext;
-            viewModel.DisplayMode = isChecked.HasValue && isChecked.Value ?
-                DisplayMode.BaseDetail : DisplayMode.BaseSummaryAndChildren;
-        }
-
-        /// <summary>
-        /// 子クラスの検索にメタデータを含めるかどうかを切り替えます。
-        /// </summary>
-        private void ChangeIncludedMetadata(object sender, RoutedEventArgs e)
-        {
-            var isChecked = ((ToggleButton)sender).IsChecked;
-            var viewModel = (TypeHierarchyViewModel)DataContext;
-            viewModel.IncludedMetadata = isChecked.HasValue && isChecked.Value;
         }
 
         /// <summary>

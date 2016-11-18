@@ -57,6 +57,8 @@
     <Compile Include="OpenTypeHierarchyCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeHierarchyViewerPackage.cs" />
+    <Compile Include="Views\Commands\SwitchDisplayModeCommand.cs" />
+    <Compile Include="Views\Commands\SwitchIncludedMetadataCommand.cs" />
     <Compile Include="Views\Converters\TypeKindToIconConverter.cs" />
     <Compile Include="Views\Converters\TypeNameConverter.cs" />
     <Compile Include="Views\DisplayMode.cs" />
