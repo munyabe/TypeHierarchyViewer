@@ -54,7 +54,7 @@ namespace TypeHierarchyViewer
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(commandSetId, commandId);
-                var menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
+                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
         }

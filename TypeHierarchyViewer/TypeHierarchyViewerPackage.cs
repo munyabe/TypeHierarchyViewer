@@ -33,6 +33,7 @@ namespace TypeHierarchyViewer
             OpenTypeHierarchyCommand.Initialize(this);
             SwitchDisplayModeCommand.Initialize(this);
             SwitchIncludedMetadataCommand.Initialize(this);
+            GetDisplayModeListCommand.Initialize(this);
             GetVsSolutionService().AdviseSolutionEvents(new VsSolutionEventsHandler(this), out _solutionEventCoockie);
         }
 

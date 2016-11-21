@@ -68,13 +68,6 @@
           <ButtonText>Open Type Hierarchy</ButtonText>
         </Strings>
       </Button>
-      
-      <Button guid="guidTypeHierarchyWindowToolbarCmdSet" id="SwitchDisplayModeCommandId" priority="0x0000" type="Button">
-        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" />
-        <Strings>
-          <ButtonText>Switch Display Mode</ButtonText>
-        </Strings>
-      </Button>
     
       <Button guid="guidTypeHierarchyWindowToolbarCmdSet" id="SwitchIncludedMetadataCommandId" priority="0x0001" type="Button">
         <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" />
@@ -83,6 +76,15 @@
         </Strings>
       </Button>
     </Buttons>
+
+    <Combos>
+      <Combo guid="guidTypeHierarchyWindowToolbarCmdSet" id="SwitchDisplayModeCommandId" idCommandList="GetDisplayModeListCommandId" defaultWidth="200" priority="0x0000" type="DropDownCombo">
+        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" />
+        <Strings>
+          <ButtonText>Switch Display Mode</ButtonText>
+        </Strings>
+      </Combo>
+    </Combos>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
     <Bitmaps>
@@ -121,6 +123,7 @@
       <IDSymbol name="BasicGroupId" value="0x2000" />
       <IDSymbol name="SwitchDisplayModeCommandId" value="0x0110" />
       <IDSymbol name="SwitchIncludedMetadataCommandId" value="0x0111" />
+      <IDSymbol name="GetDisplayModeListCommandId" value="0x0112" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{fcba976a-ae29-4ada-838d-b51a3b258ef7}" >
