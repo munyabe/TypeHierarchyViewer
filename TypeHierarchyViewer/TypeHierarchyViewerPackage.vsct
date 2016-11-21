@@ -62,7 +62,7 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidTypeHierarchyViewerPackageCmdSet" id="OpenTypeHierarchyCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidTypeHierarchyViewerPackageCmdSet" id="MyMenuGroup" />
+        <Parent guid="guidTypeHierarchyViewerPackageCmdSet" id="BasicGroupId" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Open Type Hierarchy</ButtonText>
@@ -113,7 +113,7 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidTypeHierarchyViewerPackageCmdSet" value="{d0792db2-419d-4fe0-9215-49e33d72e0eb}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="BasicGroupId" value="0x1020" />
       <IDSymbol name="OpenTypeHierarchyCommandId" value="0x0100" />
     </GuidSymbol>
 
