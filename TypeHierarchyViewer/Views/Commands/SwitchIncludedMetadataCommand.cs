@@ -38,6 +38,14 @@ namespace TypeHierarchyViewer.Views.Commands
         /// <inheritdoc />
         protected override void Execute(object sender, EventArgs e)
         {
+            var command = sender as OleMenuCommand;
+            if (command == null)
+            {
+                return;
+            }
+
+            command.Checked = !command.Checked;
+
             var viewModel = TypeHierarchyWindow.GetWindow(Package).ViewModel;
             viewModel.IncludedMetadata = !viewModel.IncludedMetadata;
         }
