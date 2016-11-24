@@ -31,10 +31,18 @@ namespace TypeHierarchyViewer
         {
             base.Initialize();
             OpenTypeHierarchyCommand.Initialize(this);
-            SwitchDisplayModeCommand.Initialize(this);
-            SwitchIncludedMetadataCommand.Initialize(this);
-            GetDisplayModeListCommand.Initialize(this);
             GetVsSolutionService().AdviseSolutionEvents(new VsSolutionEventsHandler(this), out _solutionEventCoockie);
+        }
+
+        /// <inheritdoc />
+        protected override WindowPane CreateToolWindow(Type toolWindowType, int id)
+        {
+            var window = base.CreateToolWindow(toolWindowType, id);
+            SwitchDisplayModeCommand.Initialize(this, window);
+            SwitchIncludedMetadataCommand.Initialize(this, window);
+            GetDisplayModeListCommand.Initialize(this, window);
+
+            return window;
         }
 
         /// <inheritdoc />

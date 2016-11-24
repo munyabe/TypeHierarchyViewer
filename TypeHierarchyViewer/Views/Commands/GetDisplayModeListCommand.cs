@@ -9,7 +9,7 @@ namespace TypeHierarchyViewer.Views.Commands
     /// <summary>
     /// 型階層の表示モードの一覧を取得するコマンドです。
     /// </summary>
-    internal sealed class GetDisplayModeListCommand : CommandBase
+    internal sealed class GetDisplayModeListCommand : WindowPaneCommandBase<TypeHierarchyWindow>
     {
         /// <summary>
         /// コマンドのIDです。
@@ -35,7 +35,9 @@ namespace TypeHierarchyViewer.Views.Commands
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        private GetDisplayModeListCommand(Package package) : base(package, CommandId, TypeHierarchyWindow.ToolbarCommandSetId)
+        /// <param name="windowPane">配置するツールウィンドウ</param>
+        private GetDisplayModeListCommand(Package package, TypeHierarchyWindow windowPane)
+            : base(package, windowPane, CommandId, TypeHierarchyWindow.ToolbarCommandSetId)
         {
             DisplayModes = new Dictionary<string, DisplayMode>
             {
@@ -50,9 +52,10 @@ namespace TypeHierarchyViewer.Views.Commands
         /// このコマンドのシングルトンのインスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        public static void Initialize(Package package)
+        /// <param name="windowPane">配置するツールウィンドウ</param>
+        public static void Initialize(Package package, WindowPane windowPane)
         {
-            Instance = new GetDisplayModeListCommand(package);
+            Instance = new GetDisplayModeListCommand(package, (TypeHierarchyWindow)windowPane);
         }
 
         /// <inheritdoc />

@@ -8,7 +8,7 @@ namespace TypeHierarchyViewer.Views.Commands
     /// <summary>
     /// 型階層の表示モードを切り替えるコマンドです。
     /// </summary>
-    internal sealed class SwitchDisplayModeCommand : CommandBase
+    internal sealed class SwitchDisplayModeCommand : WindowPaneCommandBase<TypeHierarchyWindow>
     {
         /// <summary>
         /// コマンドのIDです。
@@ -29,7 +29,9 @@ namespace TypeHierarchyViewer.Views.Commands
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        private SwitchDisplayModeCommand(Package package) : base(package, CommandId, TypeHierarchyWindow.ToolbarCommandSetId)
+        /// <param name="windowPane">配置するツールウィンドウ</param>
+        private SwitchDisplayModeCommand(Package package, TypeHierarchyWindow windowPane)
+            : base(package, windowPane, CommandId, TypeHierarchyWindow.ToolbarCommandSetId)
         {
         }
 
@@ -37,9 +39,10 @@ namespace TypeHierarchyViewer.Views.Commands
         /// このコマンドのシングルトンのインスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        public static void Initialize(Package package)
+        /// <param name="windowPane">配置するツールウィンドウ</param>
+        public static void Initialize(Package package, WindowPane windowPane)
         {
-            Instance = new SwitchDisplayModeCommand(package);
+            Instance = new SwitchDisplayModeCommand(package, (TypeHierarchyWindow)windowPane);
         }
 
         /// <inheritdoc />
@@ -80,8 +83,7 @@ namespace TypeHierarchyViewer.Views.Commands
         /// </summary>
         private void SwitchDisplayMode(DisplayMode mode)
         {
-            var viewModel = TypeHierarchyWindow.GetWindow(Package).ViewModel;
-            viewModel.DisplayMode = mode;
+            WindowPane.ViewModel.DisplayMode = mode;
         }
     }
 }

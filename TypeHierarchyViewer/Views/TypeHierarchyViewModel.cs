@@ -35,6 +35,7 @@ namespace TypeHierarchyViewer.Views
                 {
                     _displayMode = value;
                     TypeNodes = CreateTypeNodes(TargetType);
+                    OnPropertyChanged(nameof(DisplayMode));
                 }
             }
         }

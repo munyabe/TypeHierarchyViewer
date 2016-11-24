@@ -17,6 +17,11 @@ namespace TypeHierarchyViewer
         private readonly Package _package;
 
         /// <summary>
+        /// 登録した Visual Studio のコマンドを取得します。
+        /// </summary>
+        protected OleMenuCommand MenuCommand { get; }
+
+        /// <summary>
         /// コマンドを提供するパッケージを取得します。
         /// </summary>
         protected Package Package
@@ -54,8 +59,8 @@ namespace TypeHierarchyViewer
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(commandSetId, commandId);
-                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
-                commandService.AddCommand(menuItem);
+                MenuCommand = new OleMenuCommand(MenuItemCallback, menuCommandID);
+                commandService.AddCommand(MenuCommand);
             }
         }
 

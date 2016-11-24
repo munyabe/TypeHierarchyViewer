@@ -6,7 +6,7 @@ namespace TypeHierarchyViewer.Views.Commands
     /// <summary>
     /// 子クラスの検索にメタデータを含めるかどうかを切り替えるコマンドです。
     /// </summary>
-    internal sealed class SwitchIncludedMetadataCommand : CommandBase
+    internal sealed class SwitchIncludedMetadataCommand : WindowPaneCommandBase<TypeHierarchyWindow>
     {
         /// <summary>
         /// コマンドのIDです。
@@ -22,7 +22,9 @@ namespace TypeHierarchyViewer.Views.Commands
         /// インスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        private SwitchIncludedMetadataCommand(Package package) : base(package, CommandId, TypeHierarchyWindow.ToolbarCommandSetId)
+        /// <param name="windowPane">配置するツールウィンドウ</param>
+        private SwitchIncludedMetadataCommand(Package package, TypeHierarchyWindow windowPane)
+            : base(package, windowPane, CommandId, TypeHierarchyWindow.ToolbarCommandSetId)
         {
         }
 
@@ -30,9 +32,10 @@ namespace TypeHierarchyViewer.Views.Commands
         /// このコマンドのシングルトンのインスタンスを初期化します。
         /// </summary>
         /// <param name="package">コマンドを提供するパッケージ</param>
-        public static void Initialize(Package package)
+        /// <param name="windowPane">配置するツールウィンドウ</param>
+        public static void Initialize(Package package, WindowPane windowPane)
         {
-            Instance = new SwitchIncludedMetadataCommand(package);
+            Instance = new SwitchIncludedMetadataCommand(package, (TypeHierarchyWindow)windowPane);
         }
 
         /// <inheritdoc />
@@ -46,7 +49,7 @@ namespace TypeHierarchyViewer.Views.Commands
 
             command.Checked = !command.Checked;
 
-            var viewModel = TypeHierarchyWindow.GetWindow(Package).ViewModel;
+            var viewModel = WindowPane.ViewModel;
             viewModel.IncludedMetadata = !viewModel.IncludedMetadata;
         }
     }

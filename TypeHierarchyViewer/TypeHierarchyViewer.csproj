@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="Views\TypeNode.cs" />
     <Compile Include="VsSolutionEventsHandler.cs" />
+    <Compile Include="WindowPaneCommandBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
