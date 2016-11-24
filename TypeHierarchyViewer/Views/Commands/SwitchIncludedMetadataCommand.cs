@@ -35,7 +35,14 @@ namespace TypeHierarchyViewer.Views.Commands
         /// <param name="windowPane">配置するツールウィンドウ</param>
         public static void Initialize(Package package, WindowPane windowPane)
         {
-            Instance = new SwitchIncludedMetadataCommand(package, (TypeHierarchyWindow)windowPane);
+            var window = (TypeHierarchyWindow)windowPane;
+            Instance = new SwitchIncludedMetadataCommand(package, window);
+
+            var viewModel = window.ViewModel;
+            viewModel.PropertyChanged += (sender, e) =>
+            {
+                Instance.MenuCommand.Enabled = viewModel.DisplayMode == DisplayMode.BaseSummaryAndChildren;
+            };
         }
 
         /// <inheritdoc />
