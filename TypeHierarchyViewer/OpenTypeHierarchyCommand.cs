@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.CodeAnalysis;
@@ -53,7 +54,7 @@ namespace TypeHierarchyViewer
         /// <inheritdoc />
         protected override void Execute(object sender, EventArgs e)
         {
-            ShowToolWindow();
+            ShowToolWindowAsync();
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace TypeHierarchyViewer
         /// <summary>
         /// 現在選択している型を取得します。
         /// </summary>
-        private INamedTypeSymbol GetSelectedTypeSymbol(Microsoft.CodeAnalysis.Solution solution)
+        private async Task<INamedTypeSymbol> GetSelectedTypeSymbolAsync(Microsoft.CodeAnalysis.Solution solution)
         {
             var dte = (DTE2)ServiceProvider.GetService(typeof(DTE));
 
@@ -98,7 +99,7 @@ namespace TypeHierarchyViewer
             var doc = solution.GetDocument(docId);
             var selection = (TextSelection)activeDoc.Selection;
             var position = (selection.ActivePoint.AbsoluteCharOffset - 1) + (selection.CurrentLine - 1);
-            var symbol = SymbolFinder.FindSymbolAtPositionAsync(doc, position).Result;
+            var symbol = await SymbolFinder.FindSymbolAtPositionAsync(doc, position);
             return FindTypeSymbol(symbol);
         }
 
@@ -114,16 +115,17 @@ namespace TypeHierarchyViewer
         /// <summary>
         /// 型階層を表示するウィンドウを開きます。
         /// </summary>
-        private void ShowToolWindow()
+        private async void ShowToolWindowAsync()
         {
             var workspace = GetWorkspace();
-            var symbol = GetSelectedTypeSymbol(workspace.CurrentSolution);
+            var symbol = await GetSelectedTypeSymbolAsync(workspace.CurrentSolution);
+
+            var window = TypeHierarchyWindow.GetWindow(Package);
+            var windowFrame = (IVsWindowFrame)window.Frame;
+            ErrorHandler.ThrowOnFailure(windowFrame.Show());
+
             if (symbol != null)
             {
-                var window = TypeHierarchyWindow.GetWindow(Package);
-                var windowFrame = (IVsWindowFrame)window.Frame;
-                ErrorHandler.ThrowOnFailure(windowFrame.Show());
-
                 window.ViewModel.InitializeTargetType(symbol, workspace);
             }
         }
