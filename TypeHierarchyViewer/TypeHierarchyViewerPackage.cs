@@ -35,9 +35,9 @@ namespace TypeHierarchyViewer
         }
 
         /// <inheritdoc />
-        protected override WindowPane CreateToolWindow(Type toolWindowType, int id)
+        protected override WindowPane InstantiateToolWindow(Type toolWindowType)
         {
-            var window = base.CreateToolWindow(toolWindowType, id);
+            var window = base.InstantiateToolWindow(toolWindowType);
             SwitchDisplayModeCommand.Initialize(this, window);
             SwitchIncludedMetadataCommand.Initialize(this, window);
             GetDisplayModeListCommand.Initialize(this, window);
