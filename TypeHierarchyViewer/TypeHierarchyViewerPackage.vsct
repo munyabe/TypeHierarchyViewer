@@ -35,7 +35,21 @@
          other menus or buttons (commands); from a visual point of view you can see the
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
+    <Menus>
+      <Menu guid="guidTypeHierarchyWindowToolbarCmdSet" id="MenuId" type="ToolWindowToolbar">
+        <CommandFlag>DefaultDocked</CommandFlag>
+        <Strings>
+          <ButtonText>Tool bar for Type Hierarchy Window</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
 
+    <Groups>
+      <Group guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" priority="0x0000">
+        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="MenuId" />
+      </Group>
+    </Groups>
+    
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
@@ -48,13 +62,29 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidTypeHierarchyViewerPackageCmdSet" id="OpenTypeHierarchyCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidTypeHierarchyViewerPackageCmdSet" id="MyMenuGroup" />
+        <Parent guid="guidTypeHierarchyViewerPackageCmdSet" id="BasicGroupId" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Open Type Hierarchy</ButtonText>
         </Strings>
       </Button>
+    
+      <Button guid="guidTypeHierarchyWindowToolbarCmdSet" id="SwitchIncludedMetadataCommandId" priority="0x0001" type="Button">
+        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" />
+        <Strings>
+          <ButtonText>Included Subtypes in Metadata</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
+
+    <Combos>
+      <Combo guid="guidTypeHierarchyWindowToolbarCmdSet" id="SwitchDisplayModeCommandId" idCommandList="GetDisplayModeListCommandId" defaultWidth="200" priority="0x0000" type="DropDownCombo">
+        <Parent guid="guidTypeHierarchyWindowToolbarCmdSet" id="BasicGroupId" />
+        <Strings>
+          <ButtonText>Switch Display Mode</ButtonText>
+        </Strings>
+      </Combo>
+    </Combos>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
     <Bitmaps>
@@ -83,8 +113,17 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidTypeHierarchyViewerPackageCmdSet" value="{d0792db2-419d-4fe0-9215-49e33d72e0eb}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="BasicGroupId" value="0x1020" />
       <IDSymbol name="OpenTypeHierarchyCommandId" value="0x0100" />
+    </GuidSymbol>
+
+    <!-- This is the guid used to group toolbar commands together -->
+    <GuidSymbol name="guidTypeHierarchyWindowToolbarCmdSet" value="{0ce5d1ff-906d-4e42-9433-e23abe8af06e}">
+      <IDSymbol name="MenuId" value="0x1000" />
+      <IDSymbol name="BasicGroupId" value="0x2000" />
+      <IDSymbol name="SwitchDisplayModeCommandId" value="0x0110" />
+      <IDSymbol name="SwitchIncludedMetadataCommandId" value="0x0111" />
+      <IDSymbol name="GetDisplayModeListCommandId" value="0x0112" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{fcba976a-ae29-4ada-838d-b51a3b258ef7}" >

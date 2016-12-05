@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.VisualStudio.LanguageServices;
@@ -34,7 +35,8 @@ namespace TypeHierarchyViewer.Views
                 if (_displayMode != value)
                 {
                     _displayMode = value;
-                    TypeNodes = CreateTypeNodes(TargetType);
+                    SetTypeNodesAsync(TargetType);
+                    OnPropertyChanged(nameof(DisplayMode));
                 }
             }
         }
@@ -51,7 +53,7 @@ namespace TypeHierarchyViewer.Views
                 if (_includedMetadata != value)
                 {
                     _includedMetadata = value;
-                    TypeNodes = CreateTypeNodes(TargetType);
+                    SetTypeNodesAsync(TargetType);
                 }
             }
         }
@@ -108,7 +110,7 @@ namespace TypeHierarchyViewer.Views
         {
             _workspace = workspace;
             TargetType = targetType;
-            TypeNodes = CreateTypeNodes(targetType);
+            SetTypeNodesAsync(targetType);
         }
 
         /// <summary>
@@ -186,11 +188,12 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 親クラスとインターフェースのサマリー、子クラスの型階層を表すノードを作成します。
         /// </summary>
-        private TypeNode[] CreateBaseSummaryAndChildrenNodes(INamedTypeSymbol targetType)
+        private async Task<TypeNode[]> CreateBaseSummaryAndChildrenNodesAsync(INamedTypeSymbol targetType)
         {
             if (targetType.TypeKind == TypeKind.Interface)
             {
-                var children = SymbolFinder.FindImplementationsAsync(targetType, _workspace.CurrentSolution).Result
+                var implementations = await SymbolFinder.FindImplementationsAsync(targetType, _workspace.CurrentSolution);
+                var children = implementations
                     .OfType<INamedTypeSymbol>()
                     .Where(CreateSubtypeFilter())
                     .Select(x => new TypeNode(x));
@@ -204,7 +207,7 @@ namespace TypeHierarchyViewer.Views
             }
             else
             {
-                var leafNode = CreateDerivedTypeNodes(targetType);
+                var leafNode = await CreateDerivedTypeNodesAsync(targetType);
                 var topNode = CreateBaseTypeNodes(targetType, leafNode);
 
                 return new[] { topNode }
@@ -246,9 +249,10 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 子クラスを含んだノードを作成します。
         /// </summary>
-        private TypeNode CreateDerivedTypeNodes(INamedTypeSymbol targetType)
+        private async Task<TypeNode> CreateDerivedTypeNodesAsync(INamedTypeSymbol targetType)
         {
-            var children = SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution).Result
+            var derivedClasses = await SymbolFinder.FindDerivedClassesAsync(targetType, _workspace.CurrentSolution);
+            var children = derivedClasses
                 .Where(CreateSubtypeFilter())
                 .Select(x => new TypeNode(x));
 
@@ -273,7 +277,7 @@ namespace TypeHierarchyViewer.Views
         /// <summary>
         /// 型階層のノードを作成します。
         /// </summary>
-        private TypeNode[] CreateTypeNodes(INamedTypeSymbol targetType)
+        private async Task<TypeNode[]> CreateTypeNodesAsync(INamedTypeSymbol targetType)
         {
             if (targetType == null)
             {
@@ -282,7 +286,7 @@ namespace TypeHierarchyViewer.Views
 
             if (DisplayMode == DisplayMode.BaseSummaryAndChildren)
             {
-                return CreateBaseSummaryAndChildrenNodes(targetType);
+                return await CreateBaseSummaryAndChildrenNodesAsync(targetType);
             }
             else if (DisplayMode == DisplayMode.BaseDetail)
             {
@@ -340,6 +344,14 @@ namespace TypeHierarchyViewer.Views
             {
                 yield return project;
             }
+        }
+
+        /// <summary>
+        /// 型階層のノードを設定します。
+        /// </summary>
+        private async void SetTypeNodesAsync(INamedTypeSymbol targetType)
+        {
+            TypeNodes = await CreateTypeNodesAsync(targetType);
         }
     }
 }

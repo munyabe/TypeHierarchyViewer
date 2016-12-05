@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using TypeHierarchyViewer.Views;
+using TypeHierarchyViewer.Views.Commands;
 
 namespace TypeHierarchyViewer
 {
@@ -31,6 +32,17 @@ namespace TypeHierarchyViewer
             base.Initialize();
             OpenTypeHierarchyCommand.Initialize(this);
             GetVsSolutionService().AdviseSolutionEvents(new VsSolutionEventsHandler(this), out _solutionEventCoockie);
+        }
+
+        /// <inheritdoc />
+        protected override WindowPane InstantiateToolWindow(Type toolWindowType)
+        {
+            var window = base.InstantiateToolWindow(toolWindowType);
+            SwitchDisplayModeCommand.Initialize(this, window);
+            SwitchIncludedMetadataCommand.Initialize(this, window);
+            GetDisplayModeListCommand.Initialize(this, window);
+
+            return window;
         }
 
         /// <inheritdoc />

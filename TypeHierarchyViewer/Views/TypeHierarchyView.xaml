@@ -4,6 +4,7 @@
              xmlns:converters="clr-namespace:TypeHierarchyViewer.Views.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vsShell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              d:DesignHeight="300"
@@ -12,19 +13,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ToolBarTray IsLocked="True">
-            <ToolBar>
-                <ToggleButton Click="ChangeDisplayMode">
-                    Base Only
-                </ToggleButton>
-                <ToggleButton Click="ChangeIncludedMetadata">
-                    Included Subtypes in Metadata 
-                </ToggleButton>
-            </ToolBar>
-        </ToolBarTray>
         <TextBlock Grid.Row="1" Text="{Binding TargetType, Converter={x:Static converters:TypeNameConverter.Instance}}" />
         <TreeView Grid.Row="2" ItemsSource="{Binding TypeNodes}" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TreeView.ItemTemplate>
@@ -32,7 +22,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding Kind, Converter={x:Static converters:TypeKindToIconConverter.Instance}}" Margin="0, 0, 5, 0" />
                         <TextBlock Text="{Binding Name}" />
-                        <TextBlock Text="{Binding Namespace, StringFormat={} - ({0})}" Foreground="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        <TextBlock Text="{Binding Namespace, StringFormat={} - ({0})}" Foreground="{x:Static SystemColors.GrayTextBrush}"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
@@ -44,7 +34,8 @@
                     <EventSetter Event="MouseLeftButtonUp" Handler="OpenItemSymbol" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsBaseNode}" Value="True">
-                            <Setter Property="Background" Value="SandyBrown"/>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static vsShell:VsBrushes.InfoBackgroundKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsShell:VsBrushes.InfoTextKey}}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
