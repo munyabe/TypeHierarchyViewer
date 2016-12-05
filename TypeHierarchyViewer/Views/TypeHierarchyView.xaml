@@ -30,8 +30,7 @@
             <TreeView.Resources>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="True" />
-                    <EventSetter Event="MouseDoubleClick" Handler="HandledMouseButtonEvent" />
-                    <EventSetter Event="MouseLeftButtonUp" Handler="OpenItemSymbol" />
+                    <EventSetter Event="MouseDoubleClick" Handler="OpenItemSymbol" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsBaseNode}" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static vsShell:VsBrushes.InfoBackgroundKey}}"/>

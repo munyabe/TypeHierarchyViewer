@@ -17,14 +17,6 @@ namespace TypeHierarchyViewer.Views
         }
 
         /// <summary>
-        /// マウスボタンの動作を抑制します。
-        /// </summary>
-        private void HandledMouseButtonEvent(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-        /// <summary>
         /// 選択した項目の定義を開きます。
         /// </summary>
         private void OpenItemSymbol(object sender, MouseButtonEventArgs e)
