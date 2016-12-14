@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="TypeHierarchyViewer.Haruaki Amabe.08bbe38c-dbbd-42ec-99ff-63efe8e28f0d" Version="1.0" Language="en-US" Publisher="Haruaki Amabe" />
+    <Identity Id="08bbe38c-dbbd-42ec-99ff-63efe8e28f0d" Version="1.0" Language="en-US" Publisher="munyabe" />
     <DisplayName>TypeHierarchyViewer</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description xml:space="preserve">This is a visual studio extension to show a type hierarchy in a tool window. </Description>
     <License>LICENSE.txt</License>
   </Metadata>
   <Installation>
