@@ -93,7 +93,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\OpenTypeHierarchyCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="guidImages" href="Resources\OpenTypeHierarchyCommand.png" usedList="bmpPic1"/>
     </Bitmaps>
   </Commands>
 
@@ -128,11 +128,6 @@
 
     <GuidSymbol name="guidImages" value="{fcba976a-ae29-4ada-838d-b51a3b258ef7}" >
       <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
 
     <!-- This is the C# text editor guid. -->

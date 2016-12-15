@@ -5,6 +5,7 @@
     <DisplayName>TypeHierarchyViewer</DisplayName>
     <Description xml:space="preserve">This is a visual studio extension to show a type hierarchy in a tool window. </Description>
     <License>LICENSE.txt</License>
+    <Icon>Resources\Package.ico</Icon>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
