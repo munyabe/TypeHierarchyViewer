@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
     <Identity Id="08bbe38c-dbbd-42ec-99ff-63efe8e28f0d" Version="1.0" Language="en-US" Publisher="munyabe" />
-    <DisplayName>TypeHierarchyViewer</DisplayName>
+    <DisplayName>Type Hierarchy Viewer</DisplayName>
     <Description xml:space="preserve">This is a visual studio extension to show a type hierarchy in a tool window. </Description>
     <License>LICENSE.txt</License>
     <Icon>Resources\Package.ico</Icon>
