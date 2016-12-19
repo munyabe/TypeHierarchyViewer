@@ -124,10 +124,7 @@ namespace TypeHierarchyViewer
             var windowFrame = (IVsWindowFrame)window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
 
-            if (symbol != null)
-            {
-                window.ViewModel.InitializeTargetType(symbol, workspace);
-            }
+            window.ViewModel.InitializeTargetType(symbol, workspace);
         }
     }
 }

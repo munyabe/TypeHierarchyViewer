@@ -109,8 +109,16 @@ namespace TypeHierarchyViewer.Views
         public void InitializeTargetType(INamedTypeSymbol targetType, VisualStudioWorkspace workspace)
         {
             _workspace = workspace;
-            TargetType = targetType;
-            SetTypeNodesAsync(targetType);
+
+            if (targetType == null)
+            {
+                Clear();
+            }
+            else
+            {
+                TargetType = targetType;
+                SetTypeNodesAsync(targetType);
+            }
         }
 
         /// <summary>
