@@ -29,7 +29,13 @@ namespace TypeHierarchyViewer
         /// </summary>
         public TypeHierarchyViewerPackage()
         {
+        }
+
+        /// <inheritdoc />
+        protected override void Initialize()
+        {
             base.Initialize();
+
             OpenTypeHierarchyCommand.Initialize(this);
             GetVsSolutionService().AdviseSolutionEvents(new VsSolutionEventsHandler(this), out _solutionEventCoockie);
         }
