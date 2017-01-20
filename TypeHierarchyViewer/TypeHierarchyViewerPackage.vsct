@@ -68,7 +68,7 @@
         <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>Open Type Hierarchy</ButtonText>
+          <ButtonText>View Type Hierarchy</ButtonText>
         </Strings>
       </Button>
     
