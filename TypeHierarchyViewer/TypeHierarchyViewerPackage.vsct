@@ -64,6 +64,9 @@
       <Button guid="guidTypeHierarchyViewerPackageCmdSet" id="OpenTypeHierarchyCommandId" priority="0x0100" type="Button">
         <Parent guid="guidTypeHierarchyViewerPackageCmdSet" id="BasicGroupId" />
         <Icon guid="guidImages" id="bmpPic1" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <ButtonText>Open Type Hierarchy</ButtonText>
         </Strings>
@@ -106,7 +109,7 @@
   <KeyBindings>
     <KeyBinding guid="guidTypeHierarchyViewerPackageCmdSet" id="OpenTypeHierarchyCommandId" editor="guidCSharpEditorFactory" key1="E" mod1="Control" key2="H" mod2="Control"/>
   </KeyBindings>
-
+    
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidTypeHierarchyViewerPackage" value="{6d8929af-093e-4b52-a6ea-d0dc93d5a30d}" />

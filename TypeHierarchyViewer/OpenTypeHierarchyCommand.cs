@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnvDTE;
@@ -20,6 +21,16 @@ namespace TypeHierarchyViewer
     internal sealed class OpenTypeHierarchyCommand : CommandBase
     {
         /// <summary>
+        /// DTE のインスタンスです。
+        /// </summary>
+        private readonly DTE2 _dte;
+
+        /// <summary>
+        /// サポートする言語の一覧です。
+        /// </summary>
+        private readonly ISet<string> _supportedLanguage = new HashSet<string> { "CSharp", "Basic" };
+
+        /// <summary>
         /// コマンドのIDです。
         /// </summary>
         public const int CommandId = 0x0100;
@@ -40,6 +51,13 @@ namespace TypeHierarchyViewer
         /// <param name="package">コマンドを提供するパッケージ</param>
         private OpenTypeHierarchyCommand(Package package) : base(package, CommandId, CommandSetId)
         {
+            _dte = (DTE2)ServiceProvider.GetService(typeof(DTE));
+
+            var menu = MenuCommand;
+            if (menu != null)
+            {
+                menu.BeforeQueryStatus += SetVisibility;
+            }
         }
 
         /// <summary>
@@ -82,9 +100,7 @@ namespace TypeHierarchyViewer
         /// </summary>
         private async Task<INamedTypeSymbol> GetSelectedTypeSymbolAsync(Microsoft.CodeAnalysis.Solution solution)
         {
-            var dte = (DTE2)ServiceProvider.GetService(typeof(DTE));
-
-            var activeDoc = dte.ActiveDocument;
+            var activeDoc = _dte.ActiveDocument;
             if (activeDoc == null)
             {
                 return null;
@@ -110,6 +126,18 @@ namespace TypeHierarchyViewer
         {
             var componentModel = (IComponentModel)ServiceProvider.GetService(typeof(SComponentModel));
             return componentModel.GetService<VisualStudioWorkspace>();
+        }
+
+        /// <summary>
+        /// メニュー項目を表示するかどうかを示す値を設定します。
+        /// </summary>
+        private void SetVisibility(object sender, EventArgs e)
+        {
+            var command = sender as OleMenuCommand;
+            if (command != null)
+            {
+                command.Visible = _supportedLanguage.Contains(_dte.ActiveDocument.Language);
+            }
         }
 
         /// <summary>
