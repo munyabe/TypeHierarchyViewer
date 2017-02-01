@@ -3,7 +3,7 @@
   <Metadata>
     <Identity Id="08bbe38c-dbbd-42ec-99ff-63efe8e28f0d" Version="1.0" Language="en-US" Publisher="munyabe" />
     <DisplayName>Type Hierarchy Viewer</DisplayName>
-    <Description xml:space="preserve">This is a visual studio extension to show a type hierarchy in a tool window. </Description>
+    <Description xml:space="preserve">This is a visual studio extension to visualize the hierarchy for a given type in a variety of different ways.</Description>
     <License>LICENSE.txt</License>
     <Icon>Resources\Package.ico</Icon>
     <PreviewImage>Resources\Preview.png</PreviewImage>
