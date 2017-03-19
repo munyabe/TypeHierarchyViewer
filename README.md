@@ -4,4 +4,4 @@
 This is a visual studio extension to show a type hierarchy in a tool window.
 
 ## Getting Started
-See [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=munyabe.TypeHierarchyViewer) for additional info on how to use this extension.
+See [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=munyabe.TypeHierarchyViewer) for additional info on how to use this extension.
